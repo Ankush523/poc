@@ -1,6 +1,9 @@
 .App {
   text-align: center;
   background-image: url("https://img.freepik.com/free-vector/abstract-blue-light-pipe-speed-zoom-black-background-technology_1142-8633.jpg?w=2000&t=st=1677260032~exp=1677260632~hmac=8164db07ea30de5c001172d973c53dc32f2cd67e42923c56995036f8ec8f844d");
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
 
 .App-logo {
