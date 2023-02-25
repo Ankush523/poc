@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import Invest from './pages/Invest';
 
