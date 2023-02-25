@@ -61,7 +61,6 @@ const Invest = () => {
             <div className='flex flex-col w-[58%] border border-grey1 backdrop-blur-sm bg-white/30 rounded-2xl'>
                 <div className='flex flex-col justify-center border border-grey1 py-[20%] my-[2%] mx-[2%] h-[80%] rounded-lg'>
                     <img src={growth} className=" w-[10%] mx-[45%]"/>
-                    <label className='text-white1'> Select a pair to view its price history</label>
                 </div>
                 <div className='flex flex-row border border-grey1 mx-[2%] mb-[3%] py-[3%] bg-grey3 rounded-lg'>
                     <img src={bulb} alt="bulb" className='w-[10%] mx-[2%] my-[6%]'/>
