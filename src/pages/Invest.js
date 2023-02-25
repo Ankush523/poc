@@ -24,7 +24,7 @@ const Invest = () => {
     <div className='flex flex-col'>
         <Navbar/>
         <div className='flex flex-row mx-[15%] justify-between mt-[3%]'>
-            <div className='flex flex-col border border-grey1 w-[40%] rounded-2xl'>
+            <div className='flex flex-col border border-grey1 w-[40%] rounded-2xl h-[fit-content]'>
                 <div className='flex flex-col border border-grey2 m-[3%] my-[4%] bg-grey3 rounded-lg p-[3%]'>
                     <label className='text-white1 text-left mb-[2%]'>Choose Network : </label>
                     <ConnectButton label="Ethereum" accountStatus="none" showBalance={false}/>
@@ -59,8 +59,8 @@ const Invest = () => {
 
 
             <div className='flex flex-col w-[58%] border border-grey1 backdrop-blur-sm bg-white/30 rounded-2xl'>
-                <div className='flex flex-col justify-center border border-grey1 my-[2%] mx-[2%] h-[80%] rounded-lg'>
-                    <img src={growth} className=" w-[10%]"/>
+                <div className='flex flex-col justify-center border border-grey1 py-[20%] my-[2%] mx-[2%] h-[80%] rounded-lg'>
+                    <img src={growth} className=" w-[10%] mx-[45%]"/>
                     <label className='text-white1'> Select a pair to view its price history</label>
                 </div>
                 <div className='flex flex-row border border-grey1 mx-[2%] mb-[3%] py-[3%] bg-grey3 rounded-lg'>
