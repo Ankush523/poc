@@ -18,7 +18,7 @@ import Navbar from './components/Navbar';
 const { chains, provider } = configureChains(
   [mainnet, goerli, polygon, polygonMumbai],
   [
-    alchemyProvider({ apiKey: process.env.ALCHEMY_ID }),
+    alchemyProvider({ alchemyId : "9ZXgDXTYRfT4N23fIeFhA5uKbHqlawkk" }),
     publicProvider()
   ]
 );

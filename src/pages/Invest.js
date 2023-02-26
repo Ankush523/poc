@@ -18,12 +18,7 @@ const Invest = () => {
             <div className='flex flex-col w-[40%]'>
                 <div className='flex flex-col border border-grey1 rounded-2xl h-[fit-content]'>
                     <ChooseNetwork/>
-                    
                     <Tokenselect/>
-
-                    <div className='flex flex-col border border-grey2 mx-[3%] mb-[4%] bg-grey3 rounded-lg py-[3%] px-[1%]'>
-                        <button className='text-white1 border border-grey2 m-[1%] p-2 rounded-xl bg-grey4'>Continue</button>
-                    </div>
                 </div>
 
                 <div className='flex flex-col border border-grey4 rounded-2xl h-[fit-content] mt-[6%] hover:border-dotted'>

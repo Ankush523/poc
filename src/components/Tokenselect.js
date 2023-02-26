@@ -1,40 +1,75 @@
-import React from 'react'
-import { useState } from 'react';
+import React, { useState } from 'react'
+import { ethers } from 'ethers'
+import GetSF from "../hooks/GetSF";
+import { useAccount, useSigner } from 'wagmi'
+
 const Tokenselect = () => {
-    const [fromToken, setFromToken] = useState("0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48"); //USDC ERC20 Contract
-        const [toToken, setToToken] = useState("0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2"); //WETH ERC20 Contract
+        const [fromToken, setFromToken] = useState("0x8aE68021f6170E5a766bE613cEA0d75236ECCa9a"); //USDC ERC20 Contract
+        const [toToken, setToToken] = useState("0x5943F705aBb6834Cad767e6E4bB258Bc48D9C947"); //ETH ERC20 Contract
 
-        function changeToToken(e){
-            setToToken(e.target.value);
-            const selectedToToken = e.target.value;
+        console.log(fromToken)
+        console.log(toToken)
+
+        const[amount, setAmount] = useState('0')
+        const {data:signer} = useSigner()
+        const {address} = useAccount()
+
+        const upgrade = async () => {
+            const sf= await GetSF();
+            const supertokenx = await sf.loadSuperToken(fromToken);
+            const supertoken = supertokenx.underlyingToken;
+            const approve = supertoken.approve({
+                receiver : supertokenx.address,
+                amount : ethers.utils.parseEther("1000")
+            });
+            const apv = await approve.exec(signer);
+            await apv.wait();
+            const op = supertokenx.upgrade({amount : ethers.utils.parseEther("1000")});
+            const res = await op.exec(signer);
+            console.log(res)
         }
-
-
-        function changeFromToken(e){
-            setFromToken(e.target.value);
-            const selectedFromToken = e.target.value;
+    
+        const downgrade = async () => {
+            const sf= await GetSF();
+            const supertokenx = await sf.loadSuperToken(toToken);
+            const approve =  supertokenx.approve({
+                receiver: supertokenx.address || '0x0',
+                amount: ethers.utils.parseEther(amount)
+            });
+            const apv = await approve.exec(signer);
+            await apv.wait();
+            const op =  supertokenx.downgrade({ amount: ethers.utils.parseEther(amount)});
+            const res2 = op.exec(signer);
+            console.log(res2)
         }
+    
+
   return (
-    <div className='flex flex-row justify-between mx-[3%] mb-[4%] rounded-lg'>
-         <div className='flex flex-col bg-grey3 border border-grey2 px-[2%] pt-[2%] pb-[3%] w-[45%] rounded-lg text-left'>
-            <label className='text-white1 mb-[3%]'>Sell</label>
-            <select className='py-[3%] rounded-md bg-grey4 text-white1' name="fromToken" value={fromToken} onChange={(e) => changeFromToken(e)}>
-                <option value="0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48">USDC</option>
-                <option value="0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2">WETH</option>
-                <option value="0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599">WBTC</option>
-                <option value="0x6B175474E89094C44Da98b954EedeAC495271d0F">DAI</option>
-            </select>       
+        <div className='flex flex-col'>
+            <div className='flex flex-row justify-between mx-[3%] mb-[4%] rounded-lg'>
+                <div className='flex flex-col bg-grey3 border border-grey2 px-[2%] pt-[2%] pb-[3%] w-[45%] rounded-lg text-left'>
+                    <label className='text-white1 mb-[3%]'>Sell</label>
+                    <select className='py-[3%] rounded-md bg-grey4 text-white1' name="fromToken" onChange={(e) => setFromToken(e.target.value)}>
+                        <option value="0x8aE68021f6170E5a766bE613cEA0d75236ECCa9a">USDC</option>
+                        <option value="0x5943F705aBb6834Cad767e6E4bB258Bc48D9C947">ETH</option>
+                        <option value="0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00">DAI</option>
+                    </select>       
+
+                </div>
+                <div className='flex flex-col bg-grey3 border border-grey2 px-[2%] pt-[2%] pb-[3%] w-[45%] rounded-lg text-left'>
+                    <label className='text-white1 mb-[3%]'>Receive</label>
+                    <select className='py-[3%] rounded-md bg-grey4 text-white1' name="toToken" onChange={(e) => setToToken(e.target.value)}>
+                        <option value="0x5943F705aBb6834Cad767e6E4bB258Bc48D9C947">ETH</option>
+                        <option value="0x8aE68021f6170E5a766bE613cEA0d75236ECCa9a">USDC</option>
+                        <option value="0xF2d68898557cCb2Cf4C10c3Ef2B034b2a69DAD00">DAI</option>
+                    </select>
+                </div>
+            </div>
+
+            <div className='flex flex-col border border-grey2 mx-[3%] mb-[4%] bg-grey3 rounded-lg py-[3%] px-[1%]'>
+                <button className='text-white1 border border-grey2 m-[1%] p-2 rounded-xl bg-grey4' onClick={upgrade}>Continue</button>
+            </div>
         </div>
-        <div className='flex flex-col bg-grey3 border border-grey2 px-[2%] pt-[2%] pb-[3%] w-[45%] rounded-lg text-left'>
-            <label className='text-white1 mb-[3%]'>Receive</label>
-            <select className='py-[3%] rounded-md bg-grey4 text-white1' name="toToken" value={toToken} onChange={(e) => changeToToken(e)}>
-                <option value="0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2">WETH</option>
-                <option value="0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48">USDC</option>
-                <option value="0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599">WBTC</option>
-                <option value="0x6B175474E89094C44Da98b954EedeAC495271d0F">DAI</option>
-            </select>
-        </div>
-    </div>
   )
 }
 

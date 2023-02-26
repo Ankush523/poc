@@ -4,8 +4,9 @@ import GetSF from '../../hooks/GetSF'
 import { useAccount, useSigner } from 'wagmi'
 const SuperTokens = () => {
 
-    const[amount, setAmount] = useState('0')
 
+
+    const[amount, setAmount] = useState('0')
     const {data:signer} = useSigner()
     const {address} = useAccount()
 
