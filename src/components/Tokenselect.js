@@ -33,7 +33,7 @@ const Tokenselect = () => {
             const sf= await GetSF();
             const supertokenx = await sf.loadSuperToken(toToken);
             const approve =  supertokenx.approve({
-                receiver: supertokenx.address || '0x0',
+                receiver: supertokenx.address,
                 amount: ethers.utils.parseEther(amount)
             });
             const apv = await approve.exec(signer);

@@ -8,7 +8,7 @@ import Tokenselect from '../components/Tokenselect';
 import ChooseNetwork from '../components/ChooseNetwork';
 import DCAInfo from '../components/DCAInfo';
 import arrow from '../images/arrow.png';
-import SuperTokens from '../components/Superfluid/SuperTokens';
+import Batchtransaction from '../components/Superfluid/Batchtransaction';
 const Invest = () => {
 
   return (
@@ -18,6 +18,7 @@ const Invest = () => {
             <div className='flex flex-col w-[40%]'>
                 <div className='flex flex-col border border-grey1 rounded-2xl h-[fit-content]'>
                     <ChooseNetwork/>
+                    
                     <Tokenselect/>
                 </div>
 
@@ -32,8 +33,8 @@ const Invest = () => {
 
 
             <div className='flex flex-col w-[58%] border border-grey1 backdrop-blur-sm bg-white/30 rounded-2xl shadow-2xl h-[fit-content]'>
-                <div className='flex flex-col justify-center border border-grey1  my-[2%] mx-[2%] rounded-lg'>
-                    <SuperTokens/>
+                <div className='flex flex-col justify-center border border-grey1 py-[20%] my-[2%] mx-[2%] h-[80%] rounded-lg'>
+                    <Batchtransaction/>
                 </div>
                 <div className='flex flex-row border border-grey1 mx-[2%] mb-[2%] py-[3%] bg-grey3 rounded-lg'>
                     <img src={bulb} alt="bulb" className='w-[10%] mx-[2%] my-[6%]'/>
