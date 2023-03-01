@@ -17,14 +17,16 @@ const Batchtransaction = () => {
           receiver : fdaix.address,
           amount : ethers.utils.parseEther("10000")
         });
+        const apv = await approve.exec(signer);
+        await apv.wait();
         const op = fdaix.upgrade({amount : ethers.utils.parseEther("10000")});
         const stream = fdaix.createFlow({
           sender : "0xF7bdD875Ca5449B9B98E756B1157264d325BA359",
-          recipient: "0x7E9BC94e21BEb85DaFAF2Afd5530DE876951124D",
-          flowRate: "0.001"
+          receiver: "0x7E9BC94e21BEb85DaFAF2Afd5530DE876951124D",
+          flowRate: "10000"
         }
       );
-      const batch = sf.batchCall([approve, op, stream]);
+      const batch = sf.batchCall([op, stream]);
       const res = await batch.exec(signer);
       console.log(res);
     }
