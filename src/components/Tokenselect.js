@@ -14,34 +14,84 @@ const Tokenselect = () => {
         const {data:signer} = useSigner()
         const {address} = useAccount()
 
-        const upgrade = async () => {
-            const sf= await GetSF();
-            const supertokenx = await sf.loadSuperToken(fromToken);
-            const supertoken = supertokenx.underlyingToken;
-            const approve = supertoken.approve({
-                receiver : supertokenx.address,
-                amount : ethers.utils.parseEther("1000")
-            });
-            const apv = await approve.exec(signer);
-            await apv.wait();
-            const op = supertokenx.upgrade({amount : ethers.utils.parseEther("1000")});
-            const res = await op.exec(signer);
-            console.log(res)
-        }
+        // const upgrade = async () => {
+        //     const sf= await GetSF();
+        //     const supertokenx = await sf.loadSuperToken(fromToken);
+        //     const supertoken = supertokenx.underlyingToken;
+        //     const approve = supertoken.approve({
+        //         receiver : supertokenx.address,
+        //         amount : ethers.utils.parseEther("1000")
+        //     });
+        //     const apv = await approve.exec(signer);
+        //     await apv.wait();
+        //     const op = supertokenx.upgrade({amount : ethers.utils.parseEther("1000")});
+        //     const res = await op.exec(signer);
+        //     console.log(res)
+        // }
     
-        const downgrade = async () => {
-            const sf= await GetSF();
-            const supertokenx = await sf.loadSuperToken(toToken);
-            const approve =  supertokenx.approve({
-                receiver: supertokenx.address,
-                amount: ethers.utils.parseEther(amount)
+
+        const batch = async () => {
+            const sf = await GetSF();
+            const supertokenx = await sf.loadSuperToken(fromToken);
+            const supertoken = await supertokenx.underlyingToken;
+            const approve = supertoken.approve({
+              receiver : supertokenx.address,
+              amount : ethers.utils.parseEther("10000")
             });
             const apv = await approve.exec(signer);
             await apv.wait();
-            const op =  supertokenx.downgrade({ amount: ethers.utils.parseEther(amount)});
-            const res2 = op.exec(signer);
-            console.log(res2)
+            const op = supertokenx.upgrade({amount : ethers.utils.parseEther("10000")});
+            const stream = supertokenx.createFlow({
+              sender : "0xF7bdD875Ca5449B9B98E756B1157264d325BA359",
+              receiver: "0x7E9BC94e21BEb85DaFAF2Afd5530DE876951124D",
+              flowRate: "10000"
+            }
+          );
+            const batch = sf.batchCall([op, stream]);
+            const res = await batch.exec(signer);
+            console.log(res);
         }
+
+
+
+        const updatebatch = async () => {
+            const sf = await GetSF();
+            const supertokenx = await sf.loadSuperToken(fromToken);
+            const supertoken = await supertokenx.underlyingToken;
+            const approve = supertoken.approve({
+              receiver : supertokenx.address,
+              amount : ethers.utils.parseEther("10000")
+            });
+            const apv = await approve.exec(signer);
+            await apv.wait();
+            const op = supertokenx.upgrade({amount : ethers.utils.parseEther("10000")});
+            const stream = supertokenx.updateFlow({
+              sender : "0xF7bdD875Ca5449B9B98E756B1157264d325BA359",
+              receiver: "0x7E9BC94e21BEb85DaFAF2Afd5530DE876951124D",
+              flowRate: "1000"
+            }
+          );
+            const batch = sf.batchCall([op, stream]);
+            const res = await batch.exec(signer);
+            console.log(res);
+        }
+
+
+
+
+        // const downgrade = async () => {
+        //     const sf= await GetSF();
+        //     const supertokenx = await sf.loadSuperToken(toToken);
+        //     const approve =  supertokenx.approve({
+        //         receiver: supertokenx.address,
+        //         amount: ethers.utils.parseEther(amount)
+        //     });
+        //     const apv = await approve.exec(signer);
+        //     await apv.wait();
+        //     const op =  supertokenx.downgrade({ amount: ethers.utils.parseEther(amount)});
+        //     const res2 = op.exec(signer);
+        //     console.log(res2)
+        // }
     
 
   return (
@@ -67,7 +117,8 @@ const Tokenselect = () => {
             </div>
 
             <div className='flex flex-col border border-grey2 mx-[3%] mb-[4%] bg-grey3 rounded-lg py-[3%] px-[1%]'>
-                <button className='text-white1 border border-grey2 m-[1%] p-2 rounded-xl bg-grey4' onClick={upgrade}>Continue</button>
+                <button className='text-white1 border border-grey2 m-[1%] p-2 rounded-xl bg-grey4' onClick={batch}>Start Stream</button>
+                <button className='text-white1 border border-grey2 m-[1%] p-2 rounded-xl bg-grey4' onClick={updatebatch}>Update Stream</button>
             </div>
         </div>
   )
