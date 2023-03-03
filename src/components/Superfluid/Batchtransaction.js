@@ -5,7 +5,7 @@ import { useAccount, useSigner } from 'wagmi'
 
 const Batchtransaction = () => {
 
-    const[amount, setAmount] = useState('0')
+    // const[amount, setAmount] = useState('0')
     const {data:signer} = useSigner()
     const {address} = useAccount()
 
